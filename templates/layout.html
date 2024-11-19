@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% load custom_filters %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Waste Management System{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="icon" type="image/x-icon" href="{% static 'media/favicon.ico' %}">
+</head>
+<body>
+    <header class="header">
+        <a href="/">
+            <img alt="logo" src="{% static 'media/wms.png' %}" class="logo"/>
+        </a>
+        <nav class="links">
+             <a href="{% url 'schedules:create-schedule' %}" title="Create schedule">
+                Schedule
+            </a>
+            <a href="{% url 'schedules:view-schedules' %}" title="Schedules">
+                Schedules
+            </a>
+            <a href="{% url 'reports:generate-report' %}" title="Generate report">
+                Report
+            </a>
+           <a href="{% url 'reports:view-reports' %}" title="Your reports">
+                Reports
+            </a>
+            <a
+                href="{% url 'recycle-logs:log-recycle' %}"
+                title="Create recycling schedule"
+            >
+                Recycle
+            </a>
+             <a href="{% url 'recycle-logs:view-logs' %}" title="View logs">
+                Recycling logs
+            </a>
+        </nav>
+        <div class="user">
+            {% if user.is_authenticated %}
+               <div class="links">
+                    <p>Hi, {{ user.username|remove_email_domain|title }}</p>
+                    <form action="{% url 'users:logout' %}" method="post">
+                        {% csrf_token %}
+                        <button class="logout-button">Logout</button>
+                    </form>
+               </div>
+            {% else %}
+                <div class="links">
+                    <a href="{% url 'users:login' %}" title="Login user">Login</a>
+                    <a href="{% url 'users:register' %}" title="Register user">Register</a>
+                </div>
+            {% endif %}
+        </div>
+    </header>
+    <main class="page main-page">
+         {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+     <footer>
+        <div class="footer-grids">
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <a href="/">Home</a> 
+                <a href="/about">About</a> 
+                <a href="/services">Services</a> 
+                <a href="/contact">Contact</a>
+            </div>
+            <div class="support">
+                <h3>Support</h3>
+                <a href="/faq">FAQ</a>
+                <a href="/support">Support Center</a> 
+                <a href="/privacy">Privacy Policy</a>
+            </div>
+            <div class="newsletter">
+                <h3>Subscribe to our Newsletter</h3>
+                <form>
+                    <label for="email" class="offscreen">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2024 Waste Management System. All rights reserved.</p>
+    </footer>
+     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.classList.add('fade-out');
+                }, 5000);
+            });
+        });
+    </script>
+</body>
+</html>

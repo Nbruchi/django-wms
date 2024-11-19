@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block title %}
+    Create your schedule
+{% endblock %}
+{% block content %}
+    <div class="schedule-form-page">
+        <h1>Create your schedule</h1>
+        <form method="post" class="schedule-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button">Save schedule</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% block title %}
+    Your schedules
+{% endblock %}
+
+{% block content %}
+    <div class="schedule-list">
+        <h1>Your schedules</h1>
+        <ul>
+            {% for schedule in schedules %}
+                <li class="schedule">
+                    <p class="schedule-day">
+                        Date: <span>{{ schedule.week_day }}</span>
+                    </p>
+                    <p class="schedule-time">
+                        Time: <span>{{ schedule.day_time }}</span></p>
+                    <p class="schedule-frequency">
+                        Schedule: <span>{{ schedule.frequency }}</span></p>
+                    <p class="schedule-creator">
+                        By: <span>{{ schedule.user.username|cut:"@gmail.com"|title}}</span>
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Pagination controls -->
+        <div class="pagination">
+            {% if schedules.has_previous %}
+                <a href="?page=1" class="first-page">&laquo; First</a>
+                <a href="?page={{ schedules.previous_page_number }}" class="prev-page">Previous</a>
+            {% endif %}
+
+            <span class="page-info">Page {{ schedules.number }} of {{ schedules.paginator.num_pages }}</span>
+
+            {% if schedules.has_next %}
+                <a href="?page={{ schedules.next_page_number }}" class="next-page">Next</a>
+                <a href="?page={{ schedules.paginator.num_pages }}" class="last-page">Last &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}View Recycling Activities{% endblock %}
+{% block content %}
+    <div class="recycling-log-list">
+        <h1>Your Recycling Activities</h1>
+        <ul class="log-list">
+            {% for log in logs %}
+                <li class="log-item">
+                    {% if log.recyclable_type == "plastic" %}
+                        <img src="{% static 'media/plastic.jpg' %}" alt="Plastic">
+                    {% elif log.recyclable_type == "glass" %}
+                        <img src="{% static 'media/glass.jpg' %}" alt="Glass">
+                    {% elif log.recyclable_type == "metal" %}
+                        <img src="{% static 'media/metal.jpg' %}" alt="Metal">
+                    {% elif log.recyclable_type == "paper" %}
+                        <img src="{% static 'media/paper.jpg' %}" alt="Paper">
+                    {% endif %}
+                    <p class="log-type">Type: <span>{{ log.recyclable_type }}</span></p>
+                    <p class="log-quantity">Quantity: <span>{{ log.quantity }}</span>kg</p>
+                    <p class="log-date">On: <span>{{ log.date }}</span></p>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Pagination Controls -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if logs.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ logs.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ logs.number }} of {{ logs.paginator.num_pages }}.
+                </span>
+
+                {% if logs.has_next %}
+                    <a href="?page={{ logs.next_page_number }}">next</a>
+                    <a href="?page={{ logs.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block title %}Log Recycling{% endblock %}
+{% block content %}
+    <div class="recycling-container">
+        <h1>Log Your Recycling Activity</h1>
+        <form method="post" class="recycling-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button">Log Recycling</button>
+        </form>
+    </div>
+{% endblock %}

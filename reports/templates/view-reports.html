@@ -1,0 +1,105 @@
+{% extends 'layout.html' %} {% block title %} View Reports {% endblock %} 
+{% load static %}
+{% block content %}
+<div class="reports-page">
+  <h1>
+    {% if report_type == 'recycling' %} Your Recycling Reports {% else %} Your
+    Collection Schedules {% endif %}
+  </h1>
+  {% if report_type == 'recycling' %}
+  <!-- Recycling Report Table -->
+  <table class="recycling-table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Type</th>
+        <th>Quantity (kg)</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in page_obj %}
+      <tr>
+        <td>
+          {% if log.recyclable_type == "plastic" %}
+          <img
+            src="{% static 'media/plastic.jpg' %}"
+            alt="Plastic"
+            class="recycle-img"
+          />
+          {% elif log.recyclable_type == "glass" %}
+          <img
+            src="{% static 'media/glass.jpg' %}"
+            alt="Glass"
+            class="recycle-img"
+          />
+          {% elif log.recyclable_type == "metal" %}
+          <img
+            src="{% static 'media/metal.jpg' %}"
+            alt="Metal"
+            class="recycle-img"
+          />
+          {% elif log.recyclable_type == "paper" %}
+          <img
+            src="{% static 'media/paper.jpg' %}"
+            alt="Paper"
+            class="recycle-img"
+          />
+          {% endif %}
+        </td>
+        <td>{{ log.recyclable_type|title }}</td>
+        <td>{{ log.quantity }}</td>
+        <td>{{ log.date }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <!-- Collection Schedule List -->
+  <ul class="schedule-list">
+    {% for schedule in page_obj %}
+    <li class="schedule-item">
+      <p><strong>Day:</strong> {{ schedule.week_day }}</p>
+      <p><strong>Time:</strong> {{ schedule.day_time }}</p>
+      <p><strong>Frequency:</strong> {{ schedule.frequency }}</p>
+      <p>
+        <strong>Created by:</strong> {{
+        schedule.user.username|cut:"@gmail.com"|title }}
+      </p>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <!-- Pagination Controls -->
+  <div class="pagination-controls">
+    {% if page_obj.has_previous %}
+    <a href="?report_type={{ report_type }}&page=1" class="pagination-link"
+      >« First</a
+    >
+    <a
+      href="?report_type={{ report_type }}&page={{ page_obj.previous_page_number }}"
+      class="pagination-link"
+      >Previous</a
+    >
+    {% endif %}
+
+    <span class="page-info"
+      >Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span
+    >
+
+    {% if page_obj.has_next %}
+    <a
+      href="?report_type={{ report_type }}&page={{ page_obj.next_page_number }}"
+      class="pagination-link"
+      >Next</a
+    >
+    <a
+      href="?report_type={{ report_type }}&page={{ page_obj.paginator.num_pages }}"
+      class="pagination-link"
+      >Last »</a
+    >
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

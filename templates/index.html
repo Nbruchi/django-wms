@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block title %} Welcome {% endblock %}
+{% block content %}
+    <div class="main-page">
+        {% if user.is_authenticated %}
+        	<h3>Welcome {{ user.username|remove_email_domain|title }}</h3>
+        {% else %}
+            <h3>Welcome to the <span>Waste Management system</span></h3>
+        {% endif %} 
+             <p>Our system helps you manage waste collection schedules, track recycling activities, and generate detailed reports. Here's what you can do:</p>
+
+        <div class="features">
+            <div class="feature">
+                <img src="{% static 'media/schedule.jpg' %}" alt="Schedule">
+                <h2>Manage Waste Collection Schedules</h2>
+                <p>Easily set and view your waste collection schedules to ensure timely pickups.</p>
+            </div>
+            <div class="feature">
+                <img src="{% static 'media/recycling.jpg' %}" alt="Recycle">
+                <h2>Track Recycling Activities</h2>
+                <p>Keep track of your recycling efforts with detailed logs and records.</p>
+            </div>
+            <div class="feature">
+                <img src="{% static 'media/reports.jpg' %}" alt="Report">
+                <h2>Generate Reports</h2>
+                <p>Generate comprehensive reports to monitor and improve your waste management practices.</p>
+            </div>
+        </div>
+        {% if not user.is_authenticated %}
+        	 <div class="cta">
+                <h2>Get Started Today!</h2>
+                <a href="{% url 'users:register' %}" class="btn register-btn">Register now</a>
+                <a href="{% url 'users:login' %}" class="btn login-btn">Login here</a>
+            </div>
+        {% endif %} 
+    </div>
+{% endblock %}
