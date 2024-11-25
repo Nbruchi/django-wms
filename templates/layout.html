@@ -1,94 +1,91 @@
 <!DOCTYPE html>
 {% load custom_filters %}
+{% load static tailwind_tags %}
 {% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <title>{% block title %}Waste Management System{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    {% tailwind_css %}
     <link rel="icon" type="image/x-icon" href="{% static 'media/favicon.ico' %}">
 </head>
-<body>
-    <header class="header">
-        <a href="/">
-            <img alt="logo" src="{% static 'media/wms.png' %}" class="logo"/>
+<body class="w-full h-screen">
+    <header class="w-full static top-0 left-0 z-50 px-16 py-2 bg-green-600 text-white flex items-center justify-between">
+        <a href="/" class="no-underline">
+            <img alt="logo" src="{% static 'media/logo.png' %}" class="size-20"/>
         </a>
         <nav class="links">
-             <a href="{% url 'schedules:create-schedule' %}" title="Create schedule">
+             <a
+                     href="{% url 'schedules:create-schedule' %}"
+                     title="Create schedule"
+                     class="text-xl ml-2 transition-all duration-300 hover:underline"
+             >
                 Schedule
             </a>
-            <a href="{% url 'schedules:view-schedules' %}" title="Schedules">
+            <a
+                    href="{% url 'schedules:view-schedules' %}"
+                    title="Schedules"
+                    class="text-xl ml-2 transition-all duration-300 hover:underline"
+            >
                 Schedules
             </a>
-            <a href="{% url 'reports:generate-report' %}" title="Generate report">
+            <a
+                    href="{% url 'reports:generate-report' %}"
+                    title="Generate report"
+                    class="text-xl ml-2 transition-all duration-300 hover:underline"
+            >
                 Report
             </a>
-           <a href="{% url 'reports:view-reports' %}" title="Your reports">
+           <a
+                   href="{% url 'reports:view-reports' %}"
+                   title="Your reports"
+                   class="text-xl ml-2 transition-all duration-300 hover:underline"
+           >
                 Reports
             </a>
             <a
                 href="{% url 'recycle-logs:log-recycle' %}"
                 title="Create recycling schedule"
+                class="text-xl ml-2 transition-all duration-300 hover:underline"
             >
                 Recycle
             </a>
-             <a href="{% url 'recycle-logs:view-logs' %}" title="View logs">
+             <a
+                     href="{% url 'recycle-logs:view-logs' %}"
+                     title="View logs"
+                     class="text-xl ml-2 transition-all duration-300 hover:underline"
+             >
                 Recycling logs
             </a>
         </nav>
         <div class="user">
             {% if user.is_authenticated %}
-               <div class="links">
+               <div class="flex text-xl gap-2 items-center">
                     <p>Hi, {{ user.username|remove_email_domain|title }}</p>
                     <form action="{% url 'users:logout' %}" method="post">
                         {% csrf_token %}
-                        <button class="logout-button">Logout</button>
+                        <button class="bg-white transition duration-300 hover:scale-110 text-green-600 px-2 py-1 rounded-md">Logout</button>
                     </form>
                </div>
             {% else %}
-                <div class="links">
-                    <a href="{% url 'users:login' %}" title="Login user">Login</a>
-                    <a href="{% url 'users:register' %}" title="Register user">Register</a>
+                <div class="flex text-xl gap-4">
+                    <a href="{% url 'users:login' %}" title="Login user" class="transition-all duration-300 hover:underline">Login</a>
+                    <a href="{% url 'users:register' %}" title="Register user" class="transition-all duration-300 hover:underline">Register</a>
                 </div>
             {% endif %}
         </div>
     </header>
-    <main class="page main-page">
+    <main class="flex flex-col">
          {% if messages %}
                 <div class="messages">
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }}">{{ message }}</div>
                     {% endfor %}
                 </div>
-            {% endif %}
-        {% block content %}{% endblock %}
+         {% endif %}
+         {% block content %}{% endblock %}
     </main>
-     <footer>
-        <div class="footer-grids">
-            <div class="footer-links">
-                <h3>Quick Links</h3>
-                <a href="/">Home</a> 
-                <a href="/about">About</a> 
-                <a href="/services">Services</a> 
-                <a href="/contact">Contact</a>
-            </div>
-            <div class="support">
-                <h3>Support</h3>
-                <a href="/faq">FAQ</a>
-                <a href="/support">Support Center</a> 
-                <a href="/privacy">Privacy Policy</a>
-            </div>
-            <div class="newsletter">
-                <h3>Subscribe to our Newsletter</h3>
-                <form>
-                    <label for="email" class="offscreen">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email">
-                    <button type="submit" class="newsletter-btn">Subscribe</button>
-                </form>
-            </div>
-        </div>
-        <p class="copyright">&copy; 2024 Waste Management System. All rights reserved.</p>
-    </footer>
      <script>
         document.addEventListener('DOMContentLoaded', function () {
             const alerts = document.querySelectorAll('.alert');

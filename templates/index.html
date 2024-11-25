@@ -3,36 +3,51 @@
 {% load static %}
 {% block title %} Welcome {% endblock %}
 {% block content %}
-    <div class="main-page">
+    <div class="flex-1">
         {% if user.is_authenticated %}
-        	<h3>Welcome {{ user.username|remove_email_domain|title }}</h3>
+        	<h3 class="text-5xl block text-center my-4 text-green-600">Welcome {{ user.username|remove_email_domain|title }}</h3>
         {% else %}
-            <h3>Welcome to the <span>Waste Management system</span></h3>
+            <h3 class="text-5xl block text-center my-4 text-green-600">Welcome to the <span>Waste Management system</span></h3>
         {% endif %} 
-             <p>Our system helps you manage waste collection schedules, track recycling activities, and generate detailed reports. Here's what you can do:</p>
+         <p class="text-center text-2xl">
+             Our system helps you manage waste collection schedules,<br/>
+             track recycling activities, and generate detailed reports. Here's what you can do:
+         </p>
 
-        <div class="features">
-            <div class="feature">
-                <img src="{% static 'media/schedule.jpg' %}" alt="Schedule">
-                <h2>Manage Waste Collection Schedules</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 p-8">
+            <div class="shadow-lg shadow-green-600 p-4 rounded-lg">
+                <img class="w-full rounded-md" src="{% static 'media/schedule.jpeg' %}" alt="Schedule">
+                <h2 class="mt-4 text-green-600 font-bold text-3xl">Manage Waste Collection Schedules</h2>
                 <p>Easily set and view your waste collection schedules to ensure timely pickups.</p>
             </div>
-            <div class="feature">
-                <img src="{% static 'media/recycling.jpg' %}" alt="Recycle">
-                <h2>Track Recycling Activities</h2>
+            <div class="shadow-lg shadow-green-600 p-4 rounded-lg">
+                <img class="w-full rounded-md" src="{% static 'media/recycling.jpeg' %}" alt="Recycle">
+                <h2 class="mt-4 text-green-600 font-bold text-3xl">Track Recycling Activities</h2>
                 <p>Keep track of your recycling efforts with detailed logs and records.</p>
             </div>
-            <div class="feature">
-                <img src="{% static 'media/reports.jpg' %}" alt="Report">
-                <h2>Generate Reports</h2>
+            <div class="shadow-lg shadow-green-600 p-4 rounded-lg">
+                <img class="w-full rounded-md" src="{% static 'media/reports.jpeg' %}" alt="Report">
+                <h2 class="mt-4 text-green-600 font-bold text-3xl">Generate Reports</h2>
                 <p>Generate comprehensive reports to monitor and improve your waste management practices.</p>
             </div>
         </div>
         {% if not user.is_authenticated %}
-        	 <div class="cta">
-                <h2>Get Started Today!</h2>
-                <a href="{% url 'users:register' %}" class="btn register-btn">Register now</a>
-                <a href="{% url 'users:login' %}" class="btn login-btn">Login here</a>
+        	 <div class="flex items-center justify-center flex-col mb-20">
+                <h2 class="text-green-600 text-4xl my-4">Get Started Today!</h2>
+                <div class="flex gap-1 w-2/4">
+                    <a
+                            href="{% url 'users:register' %}"
+                            class="px-6 py-4 rounded-md bg-green-600 text-white w-full my-1 text-center transition-all duration-300 hover:bg-white hover:text-green-600 hover:border-2 hover:border-green-600 hover:rounded-md"
+                    >
+                        Register now
+                    </a>
+                    <a
+                            href="{% url 'users:login' %}"
+                            class="px-6 py-4 rounded-md bg-emerald-600 text-white w-full my-1 text-center transition-all duration-300 hover:bg-white hover:border-2 hover:text-emerald-600 hover:border-emerald-600 hover:rounded-md"
+                    >
+                        Login here
+                    </a>
+                </div>
             </div>
         {% endif %} 
     </div>

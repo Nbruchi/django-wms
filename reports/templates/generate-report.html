@@ -1,11 +1,18 @@
 {% extends 'layout.html' %} {% block title %} Generate report {% endblock %} 
 {% block content %}
-<div class="report-form-page">
-  <h1>Generate a Report</h1>
-  <form method="post" class="report-form">
-    {% csrf_token %}
-      {{ form.as_p }}
-    <button type="submit" class="button">Generate Report</button>
-  </form>
-</div>
+    <div class="flex-1 flex items-center justify-center flex-col p-4">
+          <h1 class="text-4xl font-bold text-green-600 my-4">Generate a Report</h1>
+          <form method="post" class="w-1/2">
+{#                {% csrf_token %}#}
+                <div class="mb-4">
+                    <label for="id_report_type" class="block text-gray-700 font-bold mb-2">Report type:</label>
+                    <select id="id_report_type" name="report_type" class="border border-gray-300 rounded p-4 w-full" {{ form.report_type | safe }}>
+                        {% for value, label in form.report_type.choices %}
+                            <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            <button type="submit" class="p-4 rounded-md bg-green-600 text-white w-full my-1 transition-all duration-300 hover:bg-green-400">Generate Report</button>
+          </form>
+    </div>
 {% endblock %}

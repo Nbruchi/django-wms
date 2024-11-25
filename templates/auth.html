@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load custom_filters %}
+{% load static tailwind_tags %}
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+        {% tailwind_css %}
+        <link rel="icon" type="image/x-icon" href="{% static 'media/favicon.ico' %}">
+    </head>
+    <body>
+    <main class="w-screen max-h-screen flex items-center justify-center flex-1">
+        <div class="w-1/2">
+            <img alt="auth-image" src="{% static 'media/auth-image.jpeg' %}"/>
+        </div>
+        <div class="w-1/2 flex items-center justify-center p-4">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    </body>
+</html>

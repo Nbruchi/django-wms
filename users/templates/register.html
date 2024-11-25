@@ -1,27 +1,46 @@
-<!DOCTYPE html>
+{% extends 'auth.html' %}
+{% load static tailwind_tags %}
 {% load static %}
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Register</title>
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
-    </head>
-    <body>
-    <main class="auth-page">
-        <div class="auth-image">
-            <img alt="auth-image" src="{% static 'media/register.jpg' %}"/>
-        </div>
-        <div class="form">
-            <h1>Register Here</h1>
-            <form method="post" class="auth-form">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="button">Submit</button>
-                <p  class="auth-link">
-                    Already have an account? <a href="{% url 'users:login' %}">Login here</a>
-                </p>
-            </form>
-        </div>
-    </main>
-    </body>
-</html>
+{% tailwind_css %}
+{% block title %}
+    Register
+{% endblock %}
+{% block content %}
+    <section>
+        <h1 class="mb-12 text-5xl text-green-600 font-bold">Register Here</h1>
+        <form method="post" class="shadow-xl shadow-green-500 p-4 text-2xl">
+            {% csrf_token %}
+             <div class="mb-4">
+                <label for="id_username" class="block text-gray-700 font-bold mb-2">Username:</label>
+                <input
+                    type="text"
+                    id="id_username"
+                    name="username"
+                    class="border border-gray-300 rounded px-4 py-2 w-full" {{ form.username.as_p | safe }}
+                >
+            </div>
+            <div class="mb-4">
+                <label for="id_password" class="block text-gray-700 font-bold mb-2">Password:</label>
+                <input
+                    type="password"
+                    id="id_password"
+                    name="password"
+                    class="border border-gray-300 rounded px-4 py-2 w-full" {{ form.password.as_p | safe }}
+                >
+            </div>
+            <div class="mb-4">
+                <label for="id_conf_password" class="block text-gray-700 font-bold mb-2">Confirm Password:</label>
+                <input
+                    type="password"
+                    id="id_conf_password"
+                    name="conf_password"
+                    class="border border-gray-300 rounded px-4 py-2 w-full" {{ form.conf_password.as_p | safe }}
+                >
+            </div>
+            <button type="submit" class="px-4 py-2 rounded-md bg-green-600 text-white w-full my-1">Submit</button>
+            <p class="mt-4">
+                Already have an account? <a href="{% url 'users:login' %}" class="text-green-600">Login here</a>
+            </p>
+        </form>
+    </section>
+{% endblock %}

@@ -5,14 +5,14 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 
 from recycle_logs.models import RecyclingLog
 from reports.forms import ReportForm
 from django.core.paginator import Paginator
 from schedule.models import Schedule
 
-# Create your views here.
-@login_required(login_url="/users/login/")
+@csrf_exempt
 def generate_report(request):
     try:
         if request.method == 'POST':
@@ -43,7 +43,6 @@ def generate_report_data(report_type, user):
     else:
         raise ValueError("Invalid report type provided.")
 
-@login_required(login_url="/users/login/")
 def view_reports(request):
     # Get the report type from the form or default to 'recycling'
     report_type = request.GET.get('report_type', 'recycling')
