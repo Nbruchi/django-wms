@@ -19,9 +19,8 @@ def generate_report(request):
             form = ReportForm(request.POST)
             if form.is_valid():
                 report = form.save(commit=False)
-                report.user = request.user
                 report.generated_on = timezone.now()
-                report.data = json.dumps(generate_report_data(report.report_type, request.user))
+                report.data = json.dumps(generate_report_data(report.report_type))
                 report.save()
 
                 return HttpResponseRedirect(reverse("view_reports")+ f"?report={report.report_type}")
@@ -33,12 +32,12 @@ def generate_report(request):
 
     return render(request, 'generate-report.html', {'form': form})
 
-def generate_report_data(report_type, user):
+def generate_report_data(report_type):
     if report_type == 'collection':
-        schedules = Schedule.objects.filter(user=user)
+        schedules = Schedule.objects.all().order_by('id')
         return [{'week_day': s.week_day, 'day_time': s.day_time.strftime('%Y-%m-%d %H:%M:%S'), 'frequency': s.frequency} for s in schedules]
     elif report_type == 'recycling':
-        logs = RecyclingLog.objects.filter(user=user)
+        logs = RecyclingLog.objects.all().order_by('id')
         return [{'type': l.recyclable_type, 'quantity': l.quantity, 'date': l.date.strftime('%Y-%m-%d %H:%M:%S')} for l in logs]
     else:
         raise ValueError("Invalid report type provided.")
@@ -49,9 +48,9 @@ def view_reports(request):
 
     # Based on report_type, fetch data
     if report_type == 'collection':
-        report_data = Schedule.objects.filter(user=request.user)
+        report_data = Schedule.objects.all().order_by('id')
     else:
-        report_data = RecyclingLog.objects.filter(user=request.user).values('recyclable_type', 'quantity', 'date')
+        report_data = RecyclingLog.objects.all().order_by('id').values('recyclable_type', 'quantity', 'date')
 
     # Paginate the data (adjust number of items per page as needed)
     paginator = Paginator(report_data, 10)

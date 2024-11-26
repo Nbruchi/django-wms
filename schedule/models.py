@@ -17,10 +17,9 @@ class Schedule(models.Model):
         ('Monthly', 'Monthly'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     week_day = models.CharField(max_length=10, choices=WEEK_DAYS)
     day_time = models.TimeField()
     frequency = models.CharField(max_length=10, choices=FREQUENCIES)
 
     def __str__(self):
-        return f"{self.user} - {self.week_day} - {self.day_time} - {self.frequency}"
+        return f"{self.week_day} - {self.day_time} - {self.frequency}"

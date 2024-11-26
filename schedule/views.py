@@ -4,7 +4,6 @@ from schedule.models import Schedule
 from schedule.forms import ScheduleForm
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 @csrf_exempt
@@ -13,7 +12,6 @@ def create_schedule(request):
         form = ScheduleForm(request.POST)
         if form.is_valid():
             schedule = form.save(commit=False)
-            schedule.user = request.user
             schedule.save()
             return redirect('schedules:view-schedules')
     else:
@@ -21,7 +19,7 @@ def create_schedule(request):
     return render(request, 'create-schedule.html', {'form': form})
 
 def view_schedules(request):
-    schedules = Schedule.objects.filter(user=request.user)
+    schedules = Schedule.objects.all().order_by('id')
 
     # Set up pagination (30 schedules per page)
     paginator = Paginator(schedules, 30)  # Show 30 schedules per page

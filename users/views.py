@@ -46,5 +46,5 @@ def check_user_exists(request):
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
 def list_users(request):
-    users = User.objects.all().values('id', 'username')  # Adjust fields as necessary
+    users = User.objects.all().values('id', 'username','email')  # Adjust fields as necessary
     return JsonResponse(list(users), safe=False)

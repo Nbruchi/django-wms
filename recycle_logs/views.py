@@ -12,7 +12,6 @@ def log_recycle(request):
         form = RecyclingLogForm(request.POST)
         if form.is_valid():
             recycling_log = form.save(commit=False)
-            recycling_log.user = request.user
             recycling_log.save()
             return redirect('recycle-logs:view-logs')
     else:
@@ -20,7 +19,7 @@ def log_recycle(request):
     return render(request, 'log-recycle.html', {'form': form})
 
 def view_recycle_logs(request):
-    logs = RecyclingLog.objects.filter(user=request.user)
+    logs = RecyclingLog.objects.all().order_by('id')
 
     # Paginate logs, showing 30 logs per page
     paginator = Paginator(logs, 40)  # Show 30 logs per page
