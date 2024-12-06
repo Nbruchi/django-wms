@@ -12,6 +12,7 @@ def log_recycle(request):
         form = RecyclingLogForm(request.POST)
         if form.is_valid():
             recycling_log = form.save(commit=False)
+            recycling_log.user = request.user
             recycling_log.save()
             return redirect('recycle-logs:view-logs')
     else:

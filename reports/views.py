@@ -12,6 +12,7 @@ from reports.forms import ReportForm
 from django.core.paginator import Paginator
 from schedule.models import Schedule
 
+@login_required
 @csrf_exempt
 def generate_report(request):
     try:
@@ -20,10 +21,11 @@ def generate_report(request):
             if form.is_valid():
                 report = form.save(commit=False)
                 report.generated_on = timezone.now()
+                report.user = request.user
                 report.data = json.dumps(generate_report_data(report.report_type))
                 report.save()
 
-                return HttpResponseRedirect(reverse("view_reports")+ f"?report={report.report_type}")
+                return HttpResponseRedirect(reverse("reports:view-reports")+ f"?report={report.report_type}")
         else:
             form = ReportForm()
     except Exception as e:
