@@ -24,7 +24,7 @@ urlpatterns = [
     path("", views.homepage),
     path("users/", include("users.urls")),
     path("schedules/", include("schedule.urls")),
-    path("recycle-logs/", include("recycle_logs.urls")),
+    path("recycle-logs/", include("recycle.urls")),
     path('reports/', include("reports.urls")),
     path("__reload__/", include("django_browser_reload.urls")),
 ]

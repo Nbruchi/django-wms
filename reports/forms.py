@@ -9,7 +9,7 @@ class ReportForm(forms.ModelForm):
         ('recycling', 'Recycling activities'),
     ]
 
-    report_type = forms.ChoiceField(choices=REPORT_CHOICES)
+    type = forms.ChoiceField(choices=REPORT_CHOICES)
     class Meta:
         model = Report
-        fields = ['report_type']
+        fields = ['type']

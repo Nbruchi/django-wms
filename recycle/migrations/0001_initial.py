@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             name='RecyclingLog',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('recyclable_type', models.CharField(choices=[('plastic', 'Plastic'), ('glass', 'Glass'), ('metal', 'Metal'), ('paper', 'Paper')], max_length=20)),
+                ('type', models.CharField(choices=[('plastic', 'Plastic'), ('glass', 'Glass'), ('metal', 'Metal'), ('paper', 'Paper')], max_length=20)),
                 ('quantity', models.FloatField(default=0)),
                 ('date', models.DateTimeField(auto_now_add=True)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),

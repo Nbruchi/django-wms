@@ -1,38 +1,70 @@
-{% extends 'layout.html' %}
-{% block title %}
-    Create your schedule
-{% endblock %}
-{% block content %}
-    <div class="flex-1 flex items-center justify-center flex-col p-4">
-        <h1 class="text-4xl font-bold text-green-600 my-4">Create your schedule</h1>
-        <form method="post" class="w-1/2">
-{#            {% csrf_token %}#}
-             <div class="mb-4">
-                <label for="id_week_day" class="block text-gray-700 font-bold mb-2">Week day:</label>
-                <select id="id_week_day" name="week_day" class="border border-gray-300 rounded p-4 w-full" {{ form.week_day | safe }}>
-                    {% for value, label in form.week_day.choices %}
-                        <option value="{{ value }}">{{ label }}</option>
-                    {% endfor %}
-                </select>
-            </div> 
-            <div class="mb-4">w
-                <label for="id_day_time" class="block text-gray-700 font-bold mb-2">Day time:</label>
-                <input
-                    type="text"
-                    id="id_day_time"
-                    name="day_time"
-                    class="border border-gray-300 rounded p-4 w-full" {{ form.day_time.as_p | safe }}
-                >
-            </div>
-            <div class="mb-4">
-                <label for="id_frequency" class="block text-gray-700 font-bold mb-2">Frequency</label>
-                <select id="id_frequency" name="frequency" class="border border-gray-300 rounded p-4 w-full" {{ form.frequency | safe }}>
-                    {% for value, label in form.frequency.choices %}
-                        <option value="{{ value }}">{{ label }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <button type="submit" class="p-4 rounded-md bg-green-600 text-white w-full my-1 transition-all duration-300 hover:bg-green-400">Save schedule</button>
-        </form>
-    </div>
+{% extends 'layout.html' %} {% block title %} Create your schedule {% endblock
+%} {% block content %}
+<div class="flex-1 flex items-center justify-center flex-col p-4">
+   <h1 class="text-4xl font-bold text-green-600 my-4">Create your schedule</h1>
+   <form method="post" class="w-1/2">
+      {# {% csrf_token %}#}
+      <div class="mb-4">
+         <label for="id_day" class="block text-gray-700 font-bold mb-2"
+            >Week day:</label
+         >
+         <select
+            id="id_day"
+            name="day"
+            class="border border-gray-300 rounded p-4 w-full"
+            {{
+            form.day
+            |
+            safe
+            }}
+         >
+            {% for value, label in form.day.choices %}
+            <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+         </select>
+      </div>
+      <div class="mb-4">
+         w
+         <label for="id_time" class="block text-gray-700 font-bold mb-2"
+            >Day time:</label
+         >
+         <input
+            type="text"
+            id="id_time"
+            name="time"
+            class="border border-gray-300 rounded p-4 w-full"
+            {{
+            form.time.as_p
+            |
+            safe
+            }}
+         />
+      </div>
+      <div class="mb-4">
+         <label for="id_frequency" class="block text-gray-700 font-bold mb-2"
+            >Frequency</label
+         >
+         <select
+            id="id_frequency"
+            name="frequency"
+            class="border border-gray-300 rounded p-4 w-full"
+            {{
+            form.frequency
+            |
+            safe
+            }}
+         >
+            {% for value, label in form.frequency.choices %}
+            <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+         </select>
+      </div>
+      <button
+         type="submit"
+         class="p-4 rounded-md bg-green-600 text-white w-full my-1 transition-all duration-300 hover:bg-green-400"
+      >
+         Save schedule
+      </button>
+   </form>
+</div>
 {% endblock %}

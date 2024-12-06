@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Schedule(models.Model):
-    WEEK_DAYS = [
+    dayS = [
         ('Monday', 'Monday'),
         ('Tuesday', 'Tuesday'),
         ('Wednesday', 'Wednesday'),
@@ -17,9 +17,9 @@ class Schedule(models.Model):
         ('Monthly', 'Monthly'),
     ]
 
-    week_day = models.CharField(max_length=10, choices=WEEK_DAYS)
-    day_time = models.TimeField()
+    day = models.CharField(max_length=10, choices=dayS)
+    time = models.TimeField()
     frequency = models.CharField(max_length=10, choices=FREQUENCIES)
 
     def __str__(self):
-        return f"{self.week_day} - {self.day_time} - {self.frequency}"
+        return f"{self.day} - {self.time} - {self.frequency}"

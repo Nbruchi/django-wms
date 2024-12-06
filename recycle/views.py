@@ -2,25 +2,25 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
-from recycle_logs.forms import RecyclingLogForm
-from recycle_logs.models import RecyclingLog
+from recycle.forms import RecycleForm
+from recycle.models import Recycle
 
 # Create your views here.
 @csrf_exempt
 def log_recycle(request):
     if request.method == 'POST':
-        form = RecyclingLogForm(request.POST)
+        form = RecycleForm(request.POST)
         if form.is_valid():
             recycling_log = form.save(commit=False)
             recycling_log.user = request.user
             recycling_log.save()
             return redirect('recycle-logs:view-logs')
     else:
-        form = RecyclingLogForm()
+        form = RecycleForm()
     return render(request, 'log-recycle.html', {'form': form})
 
 def view_recycle_logs(request):
-    logs = RecyclingLog.objects.all().order_by('id')
+    logs = Recycle.objects.all().order_by('id')
 
     # Paginate logs, showing 30 logs per page
     paginator = Paginator(logs, 40)  # Show 30 logs per page

@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
-from recycle_logs.models import RecyclingLog
+from recycle.models import Recycle
 from reports.forms import ReportForm
 from django.core.paginator import Paginator
 from schedule.models import Schedule
@@ -22,10 +22,10 @@ def generate_report(request):
                 report = form.save(commit=False)
                 report.generated_on = timezone.now()
                 report.user = request.user
-                report.data = json.dumps(generate_report_data(report.report_type))
+                report.data = json.dumps(generate_report_data(report.type))
                 report.save()
 
-                return HttpResponseRedirect(reverse("reports:view-reports")+ f"?report={report.report_type}")
+                return HttpResponseRedirect(reverse("reports:view-reports")+ f"?report={report.type}")
         else:
             form = ReportForm()
     except Exception as e:
@@ -34,25 +34,25 @@ def generate_report(request):
 
     return render(request, 'generate-report.html', {'form': form})
 
-def generate_report_data(report_type):
-    if report_type == 'collection':
+def generate_report_data(type):
+    if type == 'collection':
         schedules = Schedule.objects.all().order_by('id')
-        return [{'week_day': s.week_day, 'day_time': s.day_time.strftime('%Y-%m-%d %H:%M:%S'), 'frequency': s.frequency} for s in schedules]
-    elif report_type == 'recycling':
-        logs = RecyclingLog.objects.all().order_by('id')
-        return [{'type': l.recyclable_type, 'quantity': l.quantity, 'date': l.date.strftime('%Y-%m-%d %H:%M:%S')} for l in logs]
+        return [{'day': s.day, 'time': s.time.strftime('%Y-%m-%d %H:%M:%S'), 'frequency': s.frequency} for s in schedules]
+    elif type == 'recycling':
+        logs = Recycle.objects.all().order_by('id')
+        return [{'type': l.type, 'quantity': l.quantity, 'date': l.date.strftime('%Y-%m-%d %H:%M:%S')} for l in logs]
     else:
         raise ValueError("Invalid report type provided.")
 
 def view_reports(request):
     # Get the report type from the form or default to 'recycling'
-    report_type = request.GET.get('report_type', 'recycling')
+    type = request.GET.get('type', 'recycling')
 
-    # Based on report_type, fetch data
-    if report_type == 'collection':
+    # Based on type, fetch data
+    if type == 'collection':
         report_data = Schedule.objects.all().order_by('id')
     else:
-        report_data = RecyclingLog.objects.all().order_by('id').values('recyclable_type', 'quantity', 'date')
+        report_data = Recycle.objects.all().order_by('id').values('type', 'quantity', 'date')
 
     # Paginate the data (adjust number of items per page as needed)
     paginator = Paginator(report_data, 10)
@@ -60,4 +60,4 @@ def view_reports(request):
     page_obj = paginator.get_page(page_number)
 
     # Render the template and pass the report type and paginated data
-    return render(request, 'view-reports.html', {'page_obj': page_obj, 'report_type': report_type})
+    return render(request, 'view-reports.html', {'page_obj': page_obj, 'type': type})

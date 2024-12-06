@@ -17,7 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'schedule',
-    'recycle_logs',
+    'recycle',
     'reports',
     'tailwind',
     'theme',
