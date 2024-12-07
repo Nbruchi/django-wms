@@ -1,5 +1,7 @@
-{% extends 'layout.html' %} {% block title %} View Reports {% endblock %} {%
-load static %} {% block content %}
+{% extends 'layout.html' %}
+{% block title %} View Reports {% endblock %}
+{%load static %}
+{% block content %}
 <div class="p-4 flex flex-col items-center">
    <h1 class="text-green-600 font-bold text-4xl">
       {% if type == 'recycling' %} Your Recycling Reports {% else %} Your

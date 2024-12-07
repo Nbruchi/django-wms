@@ -55,7 +55,7 @@ def view_reports(request):
         report_data = Recycle.objects.all().order_by('id').values('type', 'quantity', 'date')
 
     # Paginate the data (adjust number of items per page as needed)
-    paginator = Paginator(report_data, 10)
+    paginator = Paginator(report_data, 100)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

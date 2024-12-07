@@ -22,7 +22,7 @@ def view_schedules(request):
     schedules = Schedule.objects.all().order_by('id')
 
     # Set up pagination (30 schedules per page)
-    paginator = Paginator(schedules, 30)  # Show 30 schedules per page
+    paginator = Paginator(schedules, 100)  # Show 30 schedules per page
 
     # Get the page number from the request query parameters
     page_number = request.GET.get('page')
